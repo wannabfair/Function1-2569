@@ -253,7 +253,7 @@
 <div class="factory-card">
   <div class="header">
     <div class="title">🏭 C++ Function Types</div>
-    <div class="score-badge" id="level-badge">ด่าน 1/6</div>
+    <div class="score-badge" id="level-badge">ด่าน 1/8</div>
   </div>
 
   <div class="conveyor-stage">
@@ -296,10 +296,10 @@ const unitNames = [
 ];
 
 // ===================================================
-// คลังโจทย์ 6 ด่าน เรื่อง "ประเภทของฟังก์ชัน"
+// คลังโจทย์ 8 ด่าน เรื่อง "ประเภทของฟังก์ชัน" (ง่าย -> ยากมาก)
 // ===================================================
 const levels = [
-  // --- ด่านที่ 1: ไม่รับค่า - ไม่ส่งค่า (Void / No Params) ---
+  // --- ด่านที่ 1 (ง่ายมาก): ไม่รับค่า - ไม่ส่งค่า ---
   {
     inputLabel: "ไม่มีข้อมูลส่งเข้า",
     targetLabel: 'แสดง "Hello World" ออกทางจอ',
@@ -311,7 +311,7 @@ const levels = [
     ]
   },
 
-  // --- ด่านที่ 2: ไม่รับค่า - มีส่งค่า (Return Type / No Params) ---
+  // --- ด่านที่ 2 (ง่าย): ไม่รับค่า - มีส่งค่า ---
   {
     inputLabel: "ไม่มีข้อมูลส่งเข้า",
     targetLabel: "คืนค่าตัวเลข 100 กลับไปใช้งาน",
@@ -323,7 +323,7 @@ const levels = [
     ]
   },
 
-  // --- ด่านที่ 3: มีรับค่า - ไม่ส่งค่า (Void / With Params) ---
+  // --- ด่านที่ 3 (ง่าย-ปานกลาง): มีรับค่า - ไม่ส่งค่า ---
   {
     inputLabel: "score = 85",
     targetLabel: 'แสดง "Score: 85" ออกทางจอ',
@@ -335,7 +335,7 @@ const levels = [
     ]
   },
 
-  // --- ด่านที่ 4: มีรับค่า - มีส่งค่า (Return Type / With Params) ---
+  // --- ด่านที่ 4 (ปานกลาง): มีรับค่า - มีส่งค่า ---
   {
     inputLabel: "a = 15, b = 25",
     targetLabel: "คืนค่าผลรวม 40 กลับไปโปรแกรมหลัก",
@@ -347,7 +347,7 @@ const levels = [
     ]
   },
 
-  // --- ด่านที่ 5: การเลือกใช้ Return Type ให้ตรงวัตถุประสงค์ ---
+  // --- ด่านที่ 5 (ปานกลาง-ยาก): การเลือก Return Type เพื่อนำไปคำนวณต่อ ---
   {
     inputLabel: "r = 7.0 (รัศมีวงกลม)",
     targetLabel: "คืนค่าพื้นที่ 153.86 นำไปคำนวณต่อ",
@@ -359,15 +359,39 @@ const levels = [
     ]
   },
 
-  // --- ด่านที่ 6: รับหลาย Parameter และการตรวจสอบความถูกต้อง ---
+  // --- ด่านที่ 6 (ยาก): รับหลาย Parameter ต่างชนิด & ส่งคืน Boolean ---
   {
     inputLabel: 'name = "Alex", age = 18',
-    targetLabel: 'แสดง "Alex (18)" ออกจอภาพ',
+    targetLabel: "คืนค่า true (1) ถ้าอายุถึงเกณฑ์ 18 ปี",
     options: [
-      { code: "void showInfo(string name, int age) {\n  cout << name << \" (\" << age << \")\";\n}", correct: true, explain: "" },
-      { code: "string showInfo(string name, int age) {\n  cout << name << \" (\" << age << \")\";\n}", correct: false, explain: "ตั้ง Return Type เป็น string แต่ไม่มีการ return ข้อความกลับ" },
-      { code: "void showInfo(string name, age) {\n  cout << name << \" (\" << age << \")\";\n}", correct: false, explain: "ตัวแปร age ขาดการกำหนดชนิดข้อมูล int ใน Parameter" },
-      { code: "void showInfo(name, age) {\n  cout << name << \" (\" << age << \")\";\n}", correct: false, explain: "ขาดการระบุชนิดข้อมูลของ Parameter ทั้งสองตัว" }
+      { code: "bool checkEligible(string name, int age) {\n  return age >= 18;\n}", correct: true, explain: "" },
+      { code: "void checkEligible(string name, int age) {\n  return age >= 18;\n}", correct: false, explain: "ฟังก์ชันชนิด void ไม่สามารถส่งคืนค่าความจริง (bool) กลับไปได้" },
+      { code: "bool checkEligible(string name, age) {\n  return age >= 18;\n}", correct: false, explain: "ขาดการระบุชนิดข้อมูล int หน้าตัวแปร age" },
+      { code: "bool checkEligible(string name, int age) {\n  cout << (age >= 18);\n}", correct: false, explain: "ใช้ cout แสดงผลออกจอ แต่ไม่มีคำสั่ง return คืนค่าความจริงกลับไป" }
+    ]
+  },
+
+  // --- ด่านที่ 7 (ยากมาก 🔥): Control Flow Return Path (คืนค่าครบทุกเงื่อนไข) ---
+  {
+    inputLabel: "score = 45 (เช็กสอบผ่าน/ตก)",
+    targetLabel: "คืนค่า true ถ้าผ่าน / false ถ้าตก",
+    options: [
+      { code: "bool isPass(int score) {\n  if (score >= 50) {\n    return true;\n  }\n  return false;\n}", correct: true, explain: "" },
+      { code: "bool isPass(int score) {\n  if (score >= 50) {\n    return true;\n  }\n}", correct: false, explain: "ขาดคำสั่ง return false เมื่อคะแนนน้อยกว่า 50 ทำให้บางเงื่อนไขไม่มีการส่งค่ากลับ" },
+      { code: "void isPass(int score) {\n  if (score >= 50) return true;\n  else return false;\n}", correct: false, explain: "ฟังก์ชัน void ห้ามส่งค่า boolean กลับด้วยคำสั่ง return" },
+      { code: "bool isPass(score) {\n  return score >= 50;\n}", correct: false, explain: "ขาดการระบุชนิดข้อมูล int ให้กับ Parameter score" }
+    ]
+  },
+
+  // --- ด่านที่ 8 (ยากมาก 🔥): Type Casting & Returning Float/Double vs Integer Division ---
+  {
+    inputLabel: "s1 = 80, s2 = 75, s3 = 90",
+    targetLabel: "คืนค่าเฉลี่ย 81.67 เก็บเข้าตัวแปร double avg",
+    options: [
+      { code: "double getAverage(int s1, int s2, int s3) {\n  return (s1 + s2 + s3) / 3.0;\n}", correct: true, explain: "" },
+      { code: "void getAverage(int s1, int s2, int s3) {\n  double avg = (s1 + s2 + s3) / 3.0;\n  cout << avg;\n}", correct: false, explain: "เป็นฟังก์ชัน void ไม่สามารถคืนค่าไปจัดเก็บลงในตัวแปร double avg ของโปรแกรมหลักได้" },
+      { code: "double getAverage(int s1, int s2, int s3) {\n  return (s1 + s2 + s3) / 3;\n}", correct: false, explain: "การหารด้วย 3 (จำนวนเต็ม) จะทำให้ทศนิยมโดนตัดทิ้งตั้งแต่ง่ายๆ คืนค่าเป็น 81.0" },
+      { code: "double getAverage(s1, s2, s3) {\n  return (s1 + s2 + s3) / 3.0;\n}", correct: false, explain: "ขาดการระบุชนิดข้อมูล int ให้กับ Parameter ทุกตัว" }
     ]
   }
 ];
@@ -470,8 +494,8 @@ function runFactory() {
 
 function showWinScreen() {
   document.getElementById('game-body').innerHTML = `
-    <h2 style="text-align:center; color:var(--accent-indigo); margin-top:20px;">🏆 ยินดีด้วย! คุณผ่านครบทั้ง 6 ด่าน</h2>
-    <p style="text-align:center; color:var(--text-muted); font-size:0.9rem; line-height:1.5;">คุณเข้าใจประเภทของฟังก์ชัน C++ การรับค่า และการส่งคืนค่าได้อย่างแม่นยำ!</p>
+    <h2 style="text-align:center; color:var(--accent-indigo); margin-top:20px;">🏆 ยินดีด้วย! คุณผ่านครบทั้ง 8 ด่าน</h2>
+    <p style="text-align:center; color:var(--text-muted); font-size:0.9rem; line-height:1.5;">คุณมีความเข้าใจโครงสร้าง การรับค่า และการคืนค่าของฟังก์ชัน C++ อย่างทะลุปรุโปร่ง!</p>
     <button class="restart-btn" onclick="location.reload()">เล่นใหม่อีกครั้ง 🔄</button>
   `;
 }
