@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>C++ Function Factory</title>
+<title>C++ Function Factory - Types of Functions</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@500;600&family=Kanit:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -57,7 +57,7 @@
   }
 
   .title {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     font-weight: 700;
     color: var(--accent-indigo);
     display: flex;
@@ -252,15 +252,15 @@
 
 <div class="factory-card">
   <div class="header">
-    <div class="title">🏭 C++ Function Factory</div>
-    <div class="score-badge" id="level-badge">ด่าน 1/10</div>
+    <div class="title">🏭 C++ Function Types</div>
+    <div class="score-badge" id="level-badge">ด่าน 1/6</div>
   </div>
 
   <div class="conveyor-stage">
     <div class="belt-container">
       <div class="box">
         <span class="box-title">INPUT</span>
-        <span class="box-value" id="input-val">a = 10, b = 20</span>
+        <span class="box-value" id="input-val">ไม่มีข้อมูลส่งเข้า</span>
       </div>
 
       <div style="color:var(--text-muted); font-size:1.1rem;">➔</div>
@@ -273,13 +273,13 @@
 
       <div class="box" style="border-color: var(--accent-amber);">
         <span class="box-title">TARGET OUTPUT</span>
-        <span class="box-value" id="target-val" style="color: var(--accent-amber);">30</span>
+        <span class="box-value" id="target-val" style="color: var(--accent-amber);">แสดง "Hello World"</span>
       </div>
     </div>
   </div>
 
   <div id="game-body">
-    <div class="section-label">🛠️ เลือกยูนิตเครื่องจักร C++ ที่ทำงานถูกต้องเพื่อประมวลผล:</div>
+    <div class="section-label">🛠️ เลือกประเภทฟังก์ชัน C++ ที่ตรงกับโจทย์:</div>
     <div class="options-grid" id="options"></div>
     <button class="run-btn" id="run-btn" disabled onclick="runFactory()">⚡ เดินเครื่องโรงงาน (RUN)</button>
   </div>
@@ -295,105 +295,79 @@ const unitNames = [
   "ยูนิตประมวลผล Delta-04"
 ];
 
+// ===================================================
+// คลังโจทย์ 6 ด่าน เรื่อง "ประเภทของฟังก์ชัน"
+// ===================================================
 const levels = [
+  // --- ด่านที่ 1: ไม่รับค่า - ไม่ส่งค่า (Void / No Params) ---
   {
-    inputLabel: "a = 10, b = 20",
-    targetLabel: "30",
+    inputLabel: "ไม่มีข้อมูลส่งเข้า",
+    targetLabel: 'แสดง "Hello World" ออกทางจอ',
     options: [
-      { code: "int add(int a, int b) {\n  return a + b;\n}", correct: true, explain: "" },
-      { code: "void add(int a, int b) {\n  return a + b;\n}", correct: false, explain: "ฟังก์ชันชนิด void ห้ามส่งค่ากลับด้วย return" },
-      { code: "int add(a, b) {\n  return a + b;\n}", correct: false, explain: "ขาดการระบุชนิดข้อมูล (Type) ของ Parameter a และ b" },
-      { code: "add(int a, int b) {\n  return a + b;\n}", correct: false, explain: "ขาดการระบุ Return Type หน้าชื่อฟังก์ชัน" }
+      { code: "void sayHello() {\n  cout << \"Hello World\";\n}", correct: true, explain: "" },
+      { code: "int sayHello() {\n  cout << \"Hello World\";\n}", correct: false, explain: "ระบุประเภทเป็น int แต่ภายในฟังก์ชันไม่มีคำสั่ง return ส่งค่ากลับ" },
+      { code: "void sayHello() {\n  return \"Hello World\";\n}", correct: false, explain: "ฟังก์ชันชนิด void ไม่สามารถใช้ return ส่งค่าข้อความกลับได้" },
+      { code: "sayHello() {\n  cout << \"Hello World\";\n}", correct: false, explain: "ขาดการระบุ Return Type (เช่น void) หน้าชื่อฟังก์ชัน" }
     ]
   },
+
+  // --- ด่านที่ 2: ไม่รับค่า - มีส่งค่า (Return Type / No Params) ---
   {
-    inputLabel: "x = 5",
-    targetLabel: 'แสดง "Level: 5" ออกจอ',
+    inputLabel: "ไม่มีข้อมูลส่งเข้า",
+    targetLabel: "คืนค่าตัวเลข 100 กลับไปใช้งาน",
     options: [
-      { code: "void showLevel(int x) {\n  cout << \"Level: \" << x;\n}", correct: true, explain: "" },
-      { code: "int showLevel(int x) {\n  cout << \"Level: \" << x;\n}", correct: false, explain: "ระบุ Return Type เป็น int แต่ภายในฟังก์ชันไม่มีการ return ค่า" },
-      { code: "void showLevel(int x) {\n  return \"Level: \" + x;\n}", correct: false, explain: "ฟังก์ชันชนิด void ไม่สามารถคืนค่าข้อความด้วย return ได้" },
-      { code: "void showLevel(int x) {\n  cout << \"Level: \" << x\n}", correct: false, explain: "ไวยากรณ์ผิด ขาดเครื่องหมาย ; ปิดท้ายบรรทัด cout" }
+      { code: "int getBonus() {\n  return 100;\n}", correct: true, explain: "" },
+      { code: "void getBonus() {\n  return 100;\n}", correct: false, explain: "ฟังก์ชันชนิด void ไม่สามารถส่งคืนค่าตัวเลข 100 ได้" },
+      { code: "int getBonus() {\n  cout << 100;\n}", correct: false, explain: "ใช้ cout แค่แสดงผลออกจอ แต่ไม่ได้ 'ส่งค่ากลับ' ด้วยคำสั่ง return" },
+      { code: "int getBonus(int x) {\n  return 100;\n}", correct: false, explain: "โจทย์ไม่ได้ส่งค่าเข้า จึงไม่ต้องมี Parameter (int x)" }
     ]
   },
+
+  // --- ด่านที่ 3: มีรับค่า - ไม่ส่งค่า (Void / With Params) ---
   {
-    inputLabel: "base = 4, height = 5",
-    targetLabel: "10 (พื้นที่สามเหลี่ยม)",
+    inputLabel: "score = 85",
+    targetLabel: 'แสดง "Score: 85" ออกทางจอ',
     options: [
-      { code: "double area(double b, double h) {\n  return 0.5 * b * h;\n}", correct: true, explain: "" },
-      { code: "double area(double b, double h) {\n  return 1/2 * b * h;\n}", correct: false, explain: "1/2 เป็น Integer Division ผลลัพธ์จะได้ 0 ทำให้คำนวณได้ 0 เสมอ" },
-      { code: "double area(b, h) {\n  return 0.5 * b * h;\n}", correct: false, explain: "ขาดชนิดข้อมูลหน้าตัวแปร b และ h ใน Parameter" },
-      { code: "void area(double b, double h) {\n  return 0.5 * b * h;\n}", correct: false, explain: "ฟังก์ชัน void ห้ามส่งคืนค่าด้วยคำสั่ง return" }
+      { code: "void printScore(int score) {\n  cout << \"Score: \" << score;\n}", correct: true, explain: "" },
+      { code: "void printScore(score) {\n  cout << \"Score: \" << score;\n}", correct: false, explain: "ขาดการระบุชนิดข้อมูล int ให้กับ Parameter score" },
+      { code: "int printScore(int score) {\n  cout << \"Score: \" << score;\n}", correct: false, explain: "ระบุประเภทคืนค่าเป็น int แต่ไม่มีคำสั่ง return ค่ากลับไป" },
+      { code: "void printScore(int score) {\n  return \"Score: \" + score;\n}", correct: false, explain: "ฟังก์ชัน void ห้ามส่งค่ากลับด้วยคำสั่ง return" }
     ]
   },
+
+  // --- ด่านที่ 4: มีรับค่า - มีส่งค่า (Return Type / With Params) ---
   {
-    inputLabel: "a = 9, b = 2",
-    targetLabel: "4.5",
+    inputLabel: "a = 15, b = 25",
+    targetLabel: "คืนค่าผลรวม 40 กลับไปโปรแกรมหลัก",
     options: [
-      { code: "double divide(int a, int b) {\n  return (double)a / b;\n}", correct: true, explain: "" },
-      { code: "double divide(int a, int b) {\n  return a / b;\n}", correct: false, explain: "a / b เป็นการหารจำนวนเต็ม ได้ผลลัพธ์ 4 แล้วค่อยแปลงเป็น 4.0" },
-      { code: "int divide(int a, int b) {\n  return (double)a / b;\n}", correct: false, explain: "Return Type เป็น int จะถูกตัดทศนิยมทิ้ง เหลือแค่ 4" },
-      { code: "double divide(a, b) {\n  return (double)a / b;\n}", correct: false, explain: "ขาดการระบุชนิดข้อมูลตัวแปรใน Parameter List" }
+      { code: "int sum(int a, int b) {\n  return a + b;\n}", correct: true, explain: "" },
+      { code: "void sum(int a, int b) {\n  return a + b;\n}", correct: false, explain: "ฟังก์ชันชนิด void ห้ามใช้คำสั่ง return ส่งค่ากลับ" },
+      { code: "int sum(int a, b) {\n  return a + b;\n}", correct: false, explain: "ขาดการระบุชนิดข้อมูล int หน้าตัวแปร b ใน Parameter List" },
+      { code: "int sum(int a, int b) {\n  cout << a + b;\n}", correct: false, explain: "ใช้ cout แสดงผลออกจอเท่านั้น แต่ไม่ได้ 'คืนค่ากลับ' ด้วย return" }
     ]
   },
+
+  // --- ด่านที่ 5: การเลือกใช้ Return Type ให้ตรงวัตถุประสงค์ ---
   {
-    inputLabel: "score = 50",
-    targetLabel: "true (1)",
+    inputLabel: "r = 7.0 (รัศมีวงกลม)",
+    targetLabel: "คืนค่าพื้นที่ 153.86 นำไปคำนวณต่อ",
     options: [
-      { code: "bool isPass(int score) {\n  return score >= 50;\n}", correct: true, explain: "" },
-      { code: "bool isPass(int score) {\n  return score = 50;\n}", correct: false, explain: "เครื่องหมาย = คือการกำหนดค่า ไม่ใช่การเปรียบเทียบ (ต้องใช้ >= หรือ ==)" },
-      { code: "bool isPass(int score) {\n  if (score >= 50);\n    return true;\n  return false;\n}", correct: false, explain: "มี ; หลังคำสั่ง if ทำให้จบลูปเงื่อนไขทันที โปรแกรมจะรันคำสั่งถัดไปเสมอ" },
-      { code: "bool isPass(int score) {\n  score >= 50;\n}", correct: false, explain: "มีการเปรียบเทียบค่า แต่ไม่ได้ส่งผลลัพธ์กลับด้วยคำสั่ง return" }
+      { code: "double getArea(double r) {\n  return 3.14 * r * r;\n}", correct: true, explain: "" },
+      { code: "void getArea(double r) {\n  cout << 3.14 * r * r;\n}", correct: false, explain: "ฟังก์ชัน void แค่แสดงผลออกจอ ทำให้โปรแกรมหลักนำค่าไปคำนวณต่อไม่ได้" },
+      { code: "double getArea() {\n  return 3.14 * r * r;\n}", correct: false, explain: "ไม่ได้รับค่าตัวแปร r ผ่าน Parameter เข้ามาใช้งาน" },
+      { code: "int getArea(double r) {\n  return 3.14 * r * r;\n}", correct: false, explain: "ใช้ชนิด int จะทำให้ค่าทศนิยมสูญหาย (ถูกตัดเหลือแค่ 153)" }
     ]
   },
+
+  // --- ด่านที่ 6: รับหลาย Parameter และการตรวจสอบความถูกต้อง ---
   {
-    inputLabel: 'p1 = "Neo", p2 = "Matrix"',
-    targetLabel: '"Neo vs Matrix"',
+    inputLabel: 'name = "Alex", age = 18',
+    targetLabel: 'แสดง "Alex (18)" ออกจอภาพ',
     options: [
-      { code: "string match(string p1, string p2) {\n  return p1 + \" vs \" + p2;\n}", correct: true, explain: "" },
-      { code: "char match(string p1, string p2) {\n  return p1 + \" vs \" + p2;\n}", correct: false, explain: "Return Type เป็น char เก็บรอบรับได้แค่อักขระตัวเดียว ไม่ใช่ข้อความยาว" },
-      { code: "string match(string p1, p2) {\n  return p1 + \" vs \" + p2;\n}", correct: false, explain: "ขาดการระบุชนิดข้อมูล string หน้าตัวแปร p2" },
-      { code: "string match(string p1, string p2) {\n  cout << p1 << \" vs \" << p2;\n}", correct: false, explain: "ใช้ cout แสดงผล แต่ไม่ได้ส่งค่าข้อความกลับด้วย return" }
-    ]
-  },
-  {
-    inputLabel: "val = 10",
-    targetLabel: "val = 20 (ค่าใน main เปลี่ยน)",
-    options: [
-      { code: "void update(int &x) {\n  x = x * 2;\n}", correct: true, explain: "" },
-      { code: "void update(int x) {\n  x = x * 2;\n}", correct: false, explain: "เป็น Pass by Value เปลี่ยนเฉพาะตัวแปรภายในฟังก์ชัน ค่าใน main จะไม่เปลี่ยน" },
-      { code: "void update(int &x) {\n  return x * 2;\n}", correct: false, explain: "ฟังก์ชันชนิด void ไม่สามารถส่งค่ากลับด้วย return ได้" },
-      { code: "void update(int x&) {\n  x = x * 2;\n}", correct: false, explain: "ไวยากรณ์ผิด สัญลักษณ์ & ต้องอยู่หน้าชื่อตัวแปร (เช่น int &x)" }
-    ]
-  },
-  {
-    inputLabel: "เรียก calc(50) [ส่งค่าเดียว]",
-    targetLabel: "57",
-    options: [
-      { code: "int calc(int base, int tax = 7) {\n  return base + tax;\n}", correct: true, explain: "" },
-      { code: "int calc(int tax = 7, int base) {\n  return base + tax;\n}", correct: false, explain: "Default Parameter (ค่าเริ่มต้น) ต้องวางไว้ตำแหน่งท้ายสุดเท่านั้น" },
-      { code: "int calc(int base, tax = 7) {\n  return base + tax;\n}", correct: false, explain: "ขาดชนิดข้อมูล int หน้าตัวแปร tax" },
-      { code: "int calc(int base, int tax) {\n  return base + tax;\n}", correct: false, explain: "ไม่มีการกำหนดค่าเริ่มต้น ทำให้ไม่สามารถเรียกฟังก์ชันด้วย Argument ตัวเดียวได้" }
-    ]
-  },
-  {
-    inputLabel: "เรียกฟังก์ชัน 3 ครั้งติดกัน",
-    targetLabel: "ครั้งที่ 3 คืนค่า 3",
-    options: [
-      { code: "int getCount() {\n  static int c = 0;\n  return ++c;\n}", correct: true, explain: "" },
-      { code: "int getCount() {\n  int c = 0;\n  return ++c;\n}", correct: false, explain: "ตัวแปรธรรมดาจะถูกรีเซ็ตค่าเป็น 0 ใหม่ทุกครั้งที่ฟังก์ชันทำงาน" },
-      { code: "int getCount() {\n  static int c = 0;\n  return c++;\n}", correct: false, explain: "c++ เป็น Post-increment จะส่งค่าเดิมกลับไปก่อน (เรียกครั้งที่ 3 จะได้ค่า 2)" },
-      { code: "int getCount() {\n  static int c;\n  return c + 1;\n}", correct: false, explain: "ไม่ได้เก็บบวกค่าสะสมกลับลงในตัวแปร c ทำให้ค่า c ไม่เพิ่มขึ้น" }
-    ]
-  },
-  {
-    inputLabel: "arr[] = {1, 2, 3, 4}, size = 4",
-    targetLabel: "10 (ผลรวมสมาชิกในอาร์เรย์)",
-    options: [
-      { code: "int sumArr(int arr[], int size) {\n  int s = 0;\n  for(int i = 0; i < size; i++) {\n    s += arr[i];\n  }\n  return s;\n}", correct: true, explain: "" },
-      { code: "int sumArr(int arr[], int size) {\n  int s = 0;\n  for(int i = 0; i <= size; i++) {\n    s += arr[i];\n  }\n  return s;\n}", correct: false, explain: "เงื่อนไข i <= size ทำให้วนลูปเกินขอบเขตอาร์เรย์ (Array Index Out of Bounds)" },
-      { code: "int sumArr(int arr, int size) {\n  int s = 0;\n  for(int i = 0; i < size; i++) {\n    s += arr[i];\n  }\n  return s;\n}", correct: false, explain: "int arr ไม่ใช่อาร์เรย์ จึงไม่สามารถเข้าถึงด้วย arr[i] ได้" },
-      { code: "void sumArr(int arr[], int size) {\n  int s = 0;\n  for(int i = 0; i < size; i++) {\n    s += arr[i];\n  }\n  return s;\n}", correct: false, explain: "ฟังก์ชันชนิด void ห้ามส่งค่ากลับด้วยคำสั่ง return" }
+      { code: "void showInfo(string name, int age) {\n  cout << name << \" (\" << age << \")\";\n}", correct: true, explain: "" },
+      { code: "string showInfo(string name, int age) {\n  cout << name << \" (\" << age << \")\";\n}", correct: false, explain: "ตั้ง Return Type เป็น string แต่ไม่มีการ return ข้อความกลับ" },
+      { code: "void showInfo(string name, age) {\n  cout << name << \" (\" << age << \")\";\n}", correct: false, explain: "ตัวแปร age ขาดการกำหนดชนิดข้อมูล int ใน Parameter" },
+      { code: "void showInfo(name, age) {\n  cout << name << \" (\" << age << \")\";\n}", correct: false, explain: "ขาดการระบุชนิดข้อมูลของ Parameter ทั้งสองตัว" }
     ]
   }
 ];
@@ -474,7 +448,7 @@ function runFactory() {
 
   if (isCorrect) {
     msg.style.color = 'var(--accent-green)';
-    msg.innerText = '✨ ถูกต้อง! ยูนิตเครื่องจักรทำงานได้สมบูรณ์';
+    msg.innerText = '✨ ถูกต้อง! สร้างโครงสร้างฟังก์ชันได้ถูกต้องตามโจทย์';
     
     setTimeout(() => {
       currentLevel++;
@@ -488,7 +462,6 @@ function runFactory() {
     msg.style.color = 'var(--accent-red)';
     msg.innerText = `💥 ผิดพลาด! ${chosen.explain}`;
     
-    // ขยายเวลาค้างข้อความผิดเป็น 3 วินาที เพื่อให้เด็กอ่านทัน
     setTimeout(() => {
       runBtn.disabled = false;
     }, 3000);
@@ -497,8 +470,8 @@ function runFactory() {
 
 function showWinScreen() {
   document.getElementById('game-body').innerHTML = `
-    <h2 style="text-align:center; color:var(--accent-indigo); margin-top:20px;">🏆 ยินดีด้วย! คุณผ่านครบทั้ง 10 ด่าน</h2>
-    <p style="text-align:center; color:var(--text-muted); font-size:0.9rem; line-height:1.5;">คุณมีความเชี่ยวชาญการเขียนฟังก์ชันใน C++ ระดับวิศวกรโรงงาน!</p>
+    <h2 style="text-align:center; color:var(--accent-indigo); margin-top:20px;">🏆 ยินดีด้วย! คุณผ่านครบทั้ง 6 ด่าน</h2>
+    <p style="text-align:center; color:var(--text-muted); font-size:0.9rem; line-height:1.5;">คุณเข้าใจประเภทของฟังก์ชัน C++ การรับค่า และการส่งคืนค่าได้อย่างแม่นยำ!</p>
     <button class="restart-btn" onclick="location.reload()">เล่นใหม่อีกครั้ง 🔄</button>
   `;
 }
