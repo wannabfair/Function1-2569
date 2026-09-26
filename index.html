@@ -3,25 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>C++ Function Factory - Hard Mode</title>
+<title>C++ Function Factory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@500;600&family=Kanit:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg-dark: #0f172a;
-    --panel-bg: #1e293b;
-    --accent-gold: #f59e0b;
-    --accent-cyan: #06b6d4;
+    --bg-main: #f1f5f9;
+    --card-bg: #ffffff;
+    --card-border: #e2e8f0;
+    --accent-indigo: #4f46e5;
+    --accent-indigo-light: #eef2ff;
+    --accent-cyan: #0284c7;
+    --accent-amber: #d97706;
+    --accent-amber-light: #fef3c7;
     --accent-green: #10b981;
     --accent-red: #ef4444;
-    --code-bg: #0b1329;
-    --text-light: #f8fafc;
+    --code-bg: #f8fafc;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
   }
 
   body {
     font-family: 'Kanit', -apple-system, sans-serif;
-    background-color: var(--bg-dark);
-    color: var(--text-light);
+    background: linear-gradient(135deg, #e0e7ff 0%, #f1f5f9 100%);
+    color: var(--text-main);
     margin: 0;
-    padding: 10px;
+    padding: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -30,45 +38,48 @@
   }
 
   .factory-card {
-    background: var(--panel-bg);
+    background: var(--card-bg);
     width: 100%;
     max-width: 480px;
-    border-radius: 16px;
-    padding: 14px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-    border: 2px solid #334155;
+    border-radius: 24px;
+    padding: 18px;
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.07);
+    border: 1px solid var(--card-border);
   }
 
   .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px dashed #334155;
-    padding-bottom: 8px;
-    margin-bottom: 12px;
+    border-bottom: 2px dashed #e2e8f0;
+    padding-bottom: 10px;
+    margin-bottom: 14px;
   }
 
   .title {
-    font-size: 1rem;
-    font-weight: bold;
-    color: var(--accent-gold);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent-indigo);
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
 
   .score-badge {
-    background: #334155;
-    padding: 4px 10px;
+    background: var(--accent-indigo-light);
+    padding: 4px 12px;
     border-radius: 20px;
     font-size: 0.8rem;
-    color: var(--accent-cyan);
-    font-weight: bold;
+    color: var(--accent-indigo);
+    font-weight: 600;
   }
 
   .conveyor-stage {
-    background: #090d16;
-    border-radius: 12px;
-    padding: 10px;
-    border: 1px solid #1e293b;
-    margin-bottom: 12px;
+    background: #f8fafc;
+    border-radius: 16px;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 14px;
   }
 
   .belt-container {
@@ -76,135 +87,161 @@
     justify-content: space-between;
     align-items: center;
     gap: 6px;
-    margin: 6px 0;
+    margin: 4px 0;
   }
 
   .box {
-    background: #1e293b;
-    border: 2px solid var(--accent-cyan);
-    border-radius: 8px;
+    background: #ffffff;
+    border: 2px solid #38bdf8;
+    border-radius: 12px;
     padding: 6px 8px;
     text-align: center;
     flex: 1;
-    min-height: 48px;
+    min-height: 50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
   }
 
   .box-title {
     font-size: 0.65rem;
-    color: #94a3b8;
+    color: var(--text-muted);
+    font-weight: 600;
+    letter-spacing: 0.5px;
   }
 
   .box-value {
     font-size: 0.85rem;
-    font-weight: bold;
-    color: #fff;
+    font-weight: 700;
+    color: var(--text-main);
   }
 
   .machine-slot {
     flex: 1.4;
-    background: var(--code-bg);
-    border: 2px dashed var(--accent-gold);
-    border-radius: 8px;
+    background: #ffffff;
+    border: 2px dashed var(--accent-amber);
+    border-radius: 12px;
     padding: 6px;
     text-align: center;
-    min-height: 48px;
+    min-height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 0.75rem;
-    color: var(--accent-gold);
+    color: var(--accent-amber);
+    font-weight: 500;
+    transition: all 0.2s;
   }
 
   .machine-slot.installed {
     border-style: solid;
-    background: #1e1b4b;
-    color: #a5b4fc;
+    background: var(--accent-amber-light);
+    color: #b45309;
+    font-weight: 600;
   }
 
   .section-label {
-    font-size: 0.8rem;
-    color: #94a3b8;
-    margin-bottom: 8px;
+    font-size: 0.825rem;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    font-weight: 500;
   }
 
   .options-grid {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
   }
 
   .machine-card {
-    background: var(--code-bg);
-    border: 1px solid #334155;
-    border-radius: 8px;
-    padding: 8px 10px;
+    background: #ffffff;
+    border: 1.5px solid var(--card-border);
+    border-radius: 14px;
+    padding: 10px 12px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+  }
+
+  .machine-card:hover {
+    border-color: #c7d2fe;
+    transform: translateY(-1px);
   }
 
   .machine-card.selected {
-    border-color: var(--accent-gold);
-    background: #161e38;
-    box-shadow: 0 0 8px rgba(245, 158, 11, 0.3);
+    border-color: var(--accent-indigo);
+    background: var(--accent-indigo-light);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.12);
   }
 
   .card-label {
-    font-weight: bold;
-    font-size: 0.75rem;
-    color: var(--accent-gold);
-    margin-bottom: 3px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--accent-indigo);
+    margin-bottom: 4px;
   }
 
   pre {
     margin: 0;
     font-family: 'Fira Code', Consolas, monospace;
-    font-size: 0.75rem;
-    color: var(--accent-cyan);
+    font-size: 0.78rem;
+    color: #1e293b;
+    background: var(--code-bg);
+    padding: 8px 10px;
+    border-radius: 8px;
+    border-left: 3px solid var(--accent-indigo);
     white-space: pre-wrap;
-    line-height: 1.25;
+    line-height: 1.35;
+    font-weight: 500;
   }
 
   .run-btn {
     width: 100%;
-    padding: 12px;
-    background: var(--accent-green);
-    color: #000;
-    font-weight: bold;
+    padding: 14px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #ffffff;
+    font-weight: 700;
     border: none;
-    border-radius: 10px;
-    font-size: 0.95rem;
+    border-radius: 14px;
+    font-size: 1rem;
     cursor: pointer;
-    margin-top: 12px;
+    margin-top: 14px;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
+    transition: transform 0.1s, box-shadow 0.2s, background 0.2s;
   }
 
   .run-btn:disabled {
-    background: #475569;
+    background: #cbd5e1;
     color: #94a3b8;
+    box-shadow: none;
     cursor: not-allowed;
+  }
+
+  .run-btn:active:not(:disabled) {
+    transform: scale(0.98);
   }
 
   .msg-toast {
     text-align: center;
-    font-weight: bold;
-    margin-top: 8px;
-    min-height: 22px;
-    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 10px;
+    min-height: 24px;
+    font-size: 0.9rem;
   }
 
   .restart-btn {
     width: 100%;
-    padding: 12px;
-    background: var(--accent-cyan);
-    color: #000;
-    font-weight: bold;
+    padding: 14px;
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: #ffffff;
+    font-weight: 700;
     border: none;
-    border-radius: 10px;
-    font-size: 0.95rem;
+    border-radius: 14px;
+    font-size: 1rem;
     cursor: pointer;
-    margin-top: 12px;
+    margin-top: 14px;
+    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.25);
   }
 </style>
 </head>
@@ -212,34 +249,34 @@
 
 <div class="factory-card">
   <div class="header">
-    <div class="title">🏭 C++ Function Factory (Hard)</div>
-    <div class="score-badge" id="level-badge">ด่าน 1/6</div>
+    <div class="title">🏭 C++ Function Factory</div>
+    <div class="score-badge" id="level-badge">ด่าน 1/10</div>
   </div>
 
   <div class="conveyor-stage">
     <div class="belt-container">
       <div class="box">
         <span class="box-title">INPUT</span>
-        <span class="box-value" id="input-val">a = 7, b = 2</span>
+        <span class="box-value" id="input-val">a = 10, b = 20</span>
       </div>
 
-      <div style="color:#64748b;">➔</div>
+      <div style="color:var(--text-muted); font-size:1.1rem;">➔</div>
 
       <div class="machine-slot" id="machine-slot">
-        เลือกตัวเลือก A-D ด้านล่าง
+        เลือกยูนิตเครื่องจักรด้านล่าง
       </div>
 
-      <div style="color:#64748b;">➔</div>
+      <div style="color:var(--text-muted); font-size:1.1rem;">➔</div>
 
-      <div class="box" style="border-color: var(--accent-gold);">
+      <div class="box" style="border-color: var(--accent-amber);">
         <span class="box-title">TARGET OUTPUT</span>
-        <span class="box-value" id="target-val" style="color: var(--accent-gold);">3.5</span>
+        <span class="box-value" id="target-val" style="color: var(--accent-amber);">30</span>
       </div>
     </div>
   </div>
 
   <div id="game-body">
-    <div class="section-label">🛠️ เลือกฟังก์ชันที่ตรงตามเงื่อนไขทางไวยากรณ์และตรรกะ C++:</div>
+    <div class="section-label">🛠️ เลือกยูนิตเครื่องจักร C++ ที่ทำงานถูกต้องเพื่อประมวลผล:</div>
     <div class="options-grid" id="options"></div>
     <button class="run-btn" id="run-btn" disabled onclick="runFactory()">⚡ เดินเครื่องโรงงาน (RUN)</button>
   </div>
@@ -248,74 +285,128 @@
 </div>
 
 <script>
-// ==========================================
-// คลังโจทย์สายโหด 6 ด่าน (มีช้อยส์หลอกทุกข้อ)
-// ==========================================
+const unitNames = [
+  "ยูนิตประมวลผล Alpha-01",
+  "ยูนิตประมวลผล Beta-02",
+  "ยูนิตประมวลผล Gamma-03",
+  "ยูนิตประมวลผล Delta-04"
+];
+
 const levels = [
   {
-    inputLabel: "a = 7, b = 2",
-    targetLabel: "3.5",
+    inputLabel: "a = 10, b = 20",
+    targetLabel: "30",
     options: [
-      { code: "double div(int a, int b) {\n  return (double)a / b;\n}", correct: true },
-      { code: "double div(int a, int b) {\n  return a / b;\n}", correct: false }, // หลอก: Integer Division ได้ 3.0
-      { code: "int div(int a, int b) {\n  return (double)a / b;\n}", correct: false }, // หลอก: Return type ตัดทศนิยมเหลือ 3
-      { code: "double div(a, b) {\n  return (double)a / b;\n}", correct: false } // หลอก: ขาดชนิดข้อมูลใน Parameter
+      { code: "int add(int a, int b) {\n  return a + b;\n}", correct: true },
+      { code: "void add(int a, int b) {\n  return a + b;\n}", correct: false },
+      { code: "int add(a, b) {\n  return a + b;\n}", correct: false },
+      { code: "add(int a, int b) {\n  return a + b;\n}", correct: false }
     ]
   },
   {
-    inputLabel: "x = 10",
-    targetLabel: "x = 20 (ตัวแปรต้นทางเปลี่ยน)",
+    inputLabel: "x = 5",
+    targetLabel: 'แสดง "Level: 5" ออกจอ',
     options: [
-      { code: "void doubleIt(int &x) {\n  x = x * 2;\n}", correct: true },
-      { code: "void doubleIt(int x) {\n  x = x * 2;\n}", correct: false }, // หลอก: Pass by Value ไม่เปลี่ยนค่า x ต้นทาง
-      { code: "void doubleIt(int &x) {\n  return x * 2;\n}", correct: false }, // หลอก: void ส่งค่า return ไม่ได้
-      { code: "void doubleIt(int x&) {\n  x = x * 2;\n}", correct: false } // หลอก: วางสัญลักษณ์ & ผิดตำแหน่ง
+      { code: "void showLevel(int x) {\n  cout << \"Level: \" << x;\n}", correct: true },
+      { code: "int showLevel(int x) {\n  cout << \"Level: \" << x;\n}", correct: false },
+      { code: "void showLevel(int x) {\n  return \"Level: \" + x;\n}", correct: false },
+      { code: "void showLevel(int x) {\n  cout << \"Level: \" << x\n}", correct: false }
     ]
   },
   {
-    inputLabel: "เรียก multiply(val1, val2)\nโดย val1 = 5, val2 = 3",
-    targetLabel: "15",
+    inputLabel: "base = 4, height = 5",
+    targetLabel: "10 (พื้นที่สามเหลี่ยม)",
     options: [
-      { code: "int multiply(int x, int y) {\n  return x * y;\n}", correct: true },
-      { code: "int multiply(int x, int y) {\n  return val1 * val2;\n}", correct: false }, // หลอก: Scope Error (val1, val2 ไม่อยู่ในฟังก์ชัน)
-      { code: "int multiply(int x, int y) {\n  int res = x * y\n  return res;\n}", correct: false }, // หลอก: ขาดเครื่องหมาย ;
-      { code: "void multiply(int x, int y) {\n  return x * y;\n}", correct: false } // หลอก: void ห้าม return ค่า
+      { code: "double area(double b, double h) {\n  return 0.5 * b * h;\n}", correct: true },
+      { code: "double area(double b, double h) {\n  return 1/2 * b * h;\n}", correct: false },
+      { code: "double area(b, h) {\n  return 0.5 * b * h;\n}", correct: false },
+      { code: "void area(double b, double h) {\n  return 0.5 * b * h;\n}", correct: false }
     ]
   },
   {
-    inputLabel: "เรียก calcTotal(100)\n(ส่ง Argument ตัวเดียว)",
-    targetLabel: "107",
+    inputLabel: "a = 9, b = 2",
+    targetLabel: "4.5",
     options: [
-      { code: "int calcTotal(int base, int tax = 7) {\n  return base + tax;\n}", correct: true },
-      { code: "int calcTotal(int tax = 7, int base) {\n  return base + tax;\n}", correct: false }, // หลอก: Default Argument ต้องอยู่ท้ายสุดเท่านั้น
-      { code: "int calcTotal(int base, tax = 7) {\n  return base + tax;\n}", correct: false }, // หลอก: ขาด type หน้า tax
-      { code: "int calcTotal(int base, int tax) {\n  return base + tax;\n}", correct: false } // หลอก: ขาดค่า Default Parameter
+      { code: "double divide(int a, int b) {\n  return (double)a / b;\n}", correct: true },
+      { code: "double divide(int a, int b) {\n  return a / b;\n}", correct: false },
+      { code: "int divide(int a, int b) {\n  return (double)a / b;\n}", correct: false },
+      { code: "double divide(a, b) {\n  return (double)a / b;\n}", correct: false }
     ]
   },
   {
-    inputLabel: "score = 80",
-    targetLabel: '"Pass"',
+    inputLabel: "score = 50",
+    targetLabel: "true (1)",
     options: [
-      { code: "string getResult(int score) {\n  return (score >= 50) ? \"Pass\" : \"Fail\";\n}", correct: true },
-      { code: "string getResult(int score) {\n  return (score = 50) ? \"Pass\" : \"Fail\";\n}", correct: false }, // หลอก: ใช้ = แทน >= (Assignment)
-      { code: "string getResult(int score) {\n  if (score >= 50);\n    return \"Pass\";\n  return \"Fail\";\n}", correct: false }, // หลอก: เซมิโคลอนหลัง if ทำให้ return Pass เสมอ
-      { code: "char* getResult(int score) {\n  if (score >= 50) return \"Pass\";\n}", correct: false } // หลอก: คืนค่าไม่ครบทุก Branch (Missing else return)
+      { code: "bool isPass(int score) {\n  return score >= 50;\n}", correct: true },
+      { code: "bool isPass(int score) {\n  return score = 50;\n}", correct: false },
+      { code: "bool isPass(int score) {\n  if (score >= 50);\n    return true;\n  return false;\n}", correct: false },
+      { code: "bool isPass(int score) {\n  score >= 50;\n}", correct: false }
     ]
   },
   {
-    inputLabel: "เรียกใช้ฟังก์ชัน 3 ครั้งติดกัน",
-    targetLabel: "ครั้งที่ 3 ได้ค่า 3",
+    inputLabel: 'p1 = "Neo", p2 = "Matrix"',
+    targetLabel: '"Neo vs Matrix"',
+    options: [
+      { code: "string match(string p1, string p2) {\n  return p1 + \" vs \" + p2;\n}", correct: true },
+      { code: "char match(string p1, string p2) {\n  return p1 + \" vs \" + p2;\n}", correct: false },
+      { code: "string match(string p1, p2) {\n  return p1 + \" vs \" + p2;\n}", correct: false },
+      { code: "string match(string p1, string p2) {\n  cout << p1 << \" vs \" << p2;\n}", correct: false }
+    ]
+  },
+  {
+    inputLabel: "val = 10",
+    targetLabel: "val = 20 (ค่าใน main เปลี่ยน)",
+    options: [
+      { code: "void update(int &x) {\n  x = x * 2;\n}", correct: true },
+      { code: "void update(int x) {\n  x = x * 2;\n}", correct: false },
+      { code: "void update(int &x) {\n  return x * 2;\n}", correct: false },
+      { code: "void update(int x&) {\n  x = x * 2;\n}", correct: false }
+    ]
+  },
+  {
+    inputLabel: "เรียก calc(50) [ส่งค่าเดียว]",
+    targetLabel: "57",
+    options: [
+      { code: "int calc(int base, int tax = 7) {\n  return base + tax;\n}", correct: true },
+      { code: "int calc(int tax = 7, int base) {\n  return base + tax;\n}", correct: false },
+      { code: "int calc(int base, tax = 7) {\n  return base + tax;\n}", correct: false },
+      { code: "int calc(int base, int tax) {\n  return base + tax;\n}", correct: false }
+    ]
+  },
+  {
+    inputLabel: "เรียกฟังก์ชัน 3 ครั้งติดกัน",
+    targetLabel: "ครั้งที่ 3 คืนค่า 3",
     options: [
       { code: "int getCount() {\n  static int c = 0;\n  return ++c;\n}", correct: true },
-      { code: "int getCount() {\n  int c = 0;\n  return ++c;\n}", correct: false }, // หลอก: ตัวแปรธรรมดาถูกรีเซ็ตเป็น 0 ทุกครั้งที่เรียก
-      { code: "int getCount() {\n  static int c = 0;\n  return c++;\n}", correct: false }, // หลอก: Post-increment ครั้งที่ 3 จะคืนค่า 2
-      { code: "int getCount() {\n  static int c;\n  return c + 1;\n}", correct: false } // หลอก: ไม่มีการบวกสะสมค่ากลับเข้า c
+      { code: "int getCount() {\n  int c = 0;\n  return ++c;\n}", correct: false },
+      { code: "int getCount() {\n  static int c = 0;\n  return c++;\n}", correct: false },
+      { code: "int getCount() {\n  static int c;\n  return c + 1;\n}", correct: false }
+    ]
+  },
+  {
+    inputLabel: "arr[] = {1, 2, 3, 4}, size = 4",
+    targetLabel: "10 (ผลรวมสมาชิกในอาร์เรย์)",
+    options: [
+      { code: "int sumArr(int arr[], int size) {\n  int s = 0;\n  for(int i = 0; i < size; i++) {\n    s += arr[i];\n  }\n  return s;\n}", correct: true },
+      { code: "int sumArr(int arr[], int size) {\n  int s = 0;\n  for(int i = 0; i <= size; i++) {\n    s += arr[i];\n  }\n  return s;\n}", correct: false },
+      { code: "int sumArr(int arr, int size) {\n  int s = 0;\n  for(int i = 0; i < size; i++) {\n    s += arr[i];\n  }\n  return s;\n}", correct: false },
+      { code: "void sumArr(int arr[], int size) {\n  int s = 0;\n  for(int i = 0; i < size; i++) {\n    s += arr[i];\n  }\n  return s;\n}", correct: false }
     ]
   }
 ];
 
 let currentLevel = 0;
 let selectedOptionIndex = null;
+let currentShuffledOptions = [];
+
+function shuffleArray(array) {
+  let arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
 
 function loadLevel() {
   const lvl = levels[currentLevel];
@@ -327,20 +418,21 @@ function loadLevel() {
 
   const slot = document.getElementById('machine-slot');
   slot.className = 'machine-slot';
-  slot.innerText = 'เลือกตัวเลือก A-D ด้านล่าง';
+  slot.innerText = 'เลือกยูนิตเครื่องจักรด้านล่าง';
 
   document.getElementById('run-btn').disabled = true;
   document.getElementById('msg').innerText = '';
 
+  currentShuffledOptions = shuffleArray(lvl.options);
+
   const optsDiv = document.getElementById('options');
   optsDiv.innerHTML = '';
 
-  const labels = ['A', 'B', 'C', 'D'];
-  lvl.options.forEach((opt, idx) => {
+  currentShuffledOptions.forEach((opt, idx) => {
     const card = document.createElement('div');
     card.className = 'machine-card';
     card.innerHTML = `
-      <div class="card-label">ตัวเลือก ${labels[idx]}</div>
+      <div class="card-label">⚙️ ${unitNames[idx]}</div>
       <pre>${opt.code}</pre>
     `;
     card.onclick = () => selectOption(idx);
@@ -351,7 +443,6 @@ function loadLevel() {
 function selectOption(index) {
   selectedOptionIndex = index;
   const cards = document.querySelectorAll('.machine-card');
-  const labels = ['A', 'B', 'C', 'D'];
 
   cards.forEach((card, idx) => {
     if (idx === index) {
@@ -363,7 +454,7 @@ function selectOption(index) {
 
   const slot = document.getElementById('machine-slot');
   slot.className = 'machine-slot installed';
-  slot.innerHTML = `<div><strong>[เลือกตัวเลือก ${labels[index]}]</strong></div>`;
+  slot.innerHTML = `<div><strong>[ติดตั้ง ${unitNames[index]}]</strong></div>`;
 
   document.getElementById('run-btn').disabled = false;
 }
@@ -371,8 +462,7 @@ function selectOption(index) {
 function runFactory() {
   if (selectedOptionIndex === null) return;
 
-  const lvl = levels[currentLevel];
-  const isCorrect = lvl.options[selectedOptionIndex].correct;
+  const isCorrect = currentShuffledOptions[selectedOptionIndex].correct;
   const msg = document.getElementById('msg');
   const runBtn = document.getElementById('run-btn');
 
@@ -380,7 +470,7 @@ function runFactory() {
 
   if (isCorrect) {
     msg.style.color = 'var(--accent-green)';
-    msg.innerText = '✨ ถูกต้อง! ฟังก์ชันทำงานตามข้อกำหนด';
+    msg.innerText = '✨ ถูกต้อง! ยูนิตเครื่องจักรทำงานได้สมบูรณ์';
     
     setTimeout(() => {
       currentLevel++;
@@ -392,7 +482,7 @@ function runFactory() {
     }, 1200);
   } else {
     msg.style.color = 'var(--accent-red)';
-    msg.innerText = '💥 ผิดพลาด! มี Bug หรือไวยากรณ์ C++ ไม่ถูกต้อง';
+    msg.innerText = '💥 เกิดข้อผิดพลาด! มี Bug หรือไวยากรณ์ C++ ไม่ถูกต้อง';
     
     setTimeout(() => {
       runBtn.disabled = false;
@@ -402,8 +492,8 @@ function runFactory() {
 
 function showWinScreen() {
   document.getElementById('game-body').innerHTML = `
-    <h2 style="text-align:center; color:var(--accent-gold); margin-top:15px;">🏆 ยินดีด้วย! คุณผ่านโหมดสายโหด</h2>
-    <p style="text-align:center; color:#94a3b8; font-size:0.85rem;">คุณมองแยกแยะจุดหลอกไวยากรณ์เรื่อง C++ Function ได้อย่างแม่นยำ!</p>
+    <h2 style="text-align:center; color:var(--accent-indigo); margin-top:20px;">🏆 ยินดีด้วย! คุณผ่านครบทั้ง 10 ด่าน</h2>
+    <p style="text-align:center; color:var(--text-muted); font-size:0.9rem; line-height:1.5;">คุณมีความเชี่ยวชาญการเขียนฟังก์ชันใน C++ ระดับวิศวกรโรงงาน!</p>
     <button class="restart-btn" onclick="location.reload()">เล่นใหม่อีกครั้ง 🔄</button>
   `;
 }
